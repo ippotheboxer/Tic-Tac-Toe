@@ -19,21 +19,28 @@ const winning_combinations = [
     ['3', '5', '7']
 ]
 
+$(".boardItem").addClass("hover");
+
 function checkWinner(playerTakenTiles) {
     for(let comboNo = 0; comboNo < winning_combinations.length; comboNo++) {
         const checkCombo = winning_combinations[comboNo];
         // Check if current winning combo is included in player's taken tiles
         let result = checkCombo.every(combo => playerTakenTiles.includes(combo));
         if (result === true) {
+            $(".boardItem").removeClass("hover");
             $('.boardItem').off("click");
+            [a, b, c] = checkCombo;
+            $(`#${a}`).css('background', '#90EE90');
+            $(`#${b}`).css('background', '#90EE90');
+            $(`#${c}`).css('background', '#90EE90');
             return true;
         }
 }}
 
 function restartGame() {
-    for(a = 0; a < 10; a++) {
-        $(`#${a}`).text("");
-    }
+    $(".boardItem").text("");
+    $(".boardItem").css('background-color', 'white');
+    $(".boardItem").addClass("hover");
     i = 0;
     takenTiles = [];
     player1Tiles = [];
@@ -77,6 +84,7 @@ function game() {
         // If all tiles taken with no winner, it's a tie
         if (takenTiles.length===9) {
             $("h2").text("It's a tie!");
+            $(".boardItem").removeClass("hover");
             tieTotalScore++;
         }
     }
